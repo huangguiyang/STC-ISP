@@ -302,11 +302,11 @@ static void parse_mcu_info(unsigned char *buf, int len)
 	strncpy(mcuinfo->model, "STC90C516RD+", sizeof "STC90C516RD+");
 	
 	// version
-	mcuinfo->version = buf[20] * 0x100 + buf[21];
+	mcuinfo->version = buf[20] << 8 + buf[21];
 
 	// frequency
 	for (i=4; i < 20; i+=2) {
-		pulse_width_sum += buf[i] * 0x100 + buf[i+1];
+		pulse_width_sum += buf[i] << 8 + buf[i+1];
 	}
 	pulse_width = pulse_width_sum / 8;
 	mcuinfo->frequency = pulse_width * 1200 * 12 / 6.99786;
@@ -517,7 +517,7 @@ int download(pttys fd, unsigned char *buf, int len)
 	while (p < len) {
 
 		// address
-		cdata[2] = (p & 0xFF00) >> 8;
+		cdata[2] = (p >> 8) & 0xFF;
 		cdata[3] = p & 0xFF;
 
 		memcpy(&cdata[6], buf+p, CODE_DATA_SIZE);
