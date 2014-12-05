@@ -28,6 +28,8 @@ I hack on this just for fun.
 
 * Support Linux.
 
+* Power-on download support.
+
 ####License
 ***
 
