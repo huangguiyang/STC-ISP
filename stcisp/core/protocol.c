@@ -325,7 +325,7 @@ static void parse_mcu_info(unsigned char *buf, int len)
 	printf("\n");
 }
 
-int handshake(pttys fd)
+static int handshake(pttys fd)
 {
 	unsigned char ibuf[128];
 	int p;
@@ -434,22 +434,7 @@ static int confirm_baudrate(pttys fd, int initbaudrate, int specbaudrate)
 	return 0;
 }
 
-int verify_baudrate(pttys fd, int initbaudrate, int specbaudrate)
-{
-	if (check_baudrate(fd, specbaudrate) < 0) {
-		close_ttys(fd);
-		return -1;
-	}
-
-	if (confirm_baudrate(fd, initbaudrate, specbaudrate) < 0) {
-		close_ttys(fd);
-		return -1;
-	}
-
-	return 0;
-}
-
-int rehandshake(pttys fd)
+static int rehandshake(pttys fd)
 {
 	// send rehandshake packet
 	unsigned char data[] = {0x00, 0x00, 0x36, 0x01, 0xF1, 0x30};
@@ -481,7 +466,7 @@ int rehandshake(pttys fd)
 	return 0;
 }
 
-int download(pttys fd, unsigned char *buf, int len)
+static int do_download(pttys fd, unsigned char *buf, int len)
 {
 	// send prepare to download packet
 	unsigned char data[] = {0x01, 0x33, 0x33, 0x33, 0x33, 0x33, 0x33};
@@ -539,7 +524,7 @@ int download(pttys fd, unsigned char *buf, int len)
 	return 0;
 }
 
-int update_options(pttys fd)
+static int update_options(pttys fd)
 {
 	unsigned char data[12] = {0xFD, 0xFF, 0xF6, 0xFF};
 	int datalen = 4;
@@ -580,7 +565,7 @@ int update_options(pttys fd)
 	return 0;
 }
 
-void goodbye(pttys fd)
+static void goodbye(pttys fd)
 {
 	unsigned char buf[32];
 	int len;
@@ -599,6 +584,65 @@ void goodbye(pttys fd)
 	gen_cmd_buf(CMD_CLOSE, NULL, 0, buf, &len);
 	write_packet(fd, buf, len);
 	sleep_ms(50);
+}
+
+static int download_offline(pttys fd, DOWNLOAD *config)
+{
+	int initbaudrate = config->initbaudrate;
+	int specbaudrate = config->specbaudrate;
+
+	if (handshake(fd) < 0) {
+		close_ttys(fd);
+		return -1;
+	}
+
+	if (check_baudrate(fd, specbaudrate) < 0) {
+		close_ttys(fd);
+		return -1;
+	}
+
+	if (confirm_baudrate(fd, initbaudrate, specbaudrate) < 0) {
+		close_ttys(fd);
+		return -1;
+	}
+
+	if (rehandshake(fd) < 0) {
+		close_ttys(fd);
+		return -1;
+	}
+
+	// can download now
+	if (do_download(fd, config->buf, config->len) < 0) {
+		close_ttys(fd);
+		return -1;
+	}
+
+	// update options
+	update_options(fd);
+
+	// send end packet
+	goodbye(fd);
+
+	return 0;
+}
+
+static int download_online(pttys fd, DOWNLOAD *config)
+{
+
+	return -1;
+}
+
+int download(pttys fd, DOWNLOAD *config)
+{
+	switch (config->downtype) {
+	case 0:
+		return download_offline(fd, config);
+	case 1:
+		return download_online(fd, config);
+	default:
+		fprintf(stderr, "Unknown download type %d.\n", config->downtype);
+		return -1;
+	}
 }
 
 #ifdef __cplusplus

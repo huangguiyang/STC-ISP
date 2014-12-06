@@ -31,8 +31,8 @@ static int isp(CONFIG *config)
 {
 	pttys fd;
 	const char *port = config->port;
-	int initbaudrate = config->initbaudrate;
-	int specbaudrate = config->specbaudrate;
+	int initbaudrate = config->download.initbaudrate;
+	int specbaudrate = config->download.specbaudrate;
 
 	printf("Hello, %s: %d\n", port, specbaudrate);
 
@@ -43,32 +43,10 @@ static int isp(CONFIG *config)
 
 	set_baudrate(fd, initbaudrate);
 	
-	if (handshake(fd) < 0) {
+	if (download(fd, &config->download) < 0) {
 		close_ttys(fd);
 		return -1;
 	}
-
-	if (verify_baudrate(fd, initbaudrate, specbaudrate) < 0) {
-		close_ttys(fd);
-		return -1;
-	}
-
-	if (rehandshake(fd) < 0) {
-		close_ttys(fd);
-		return -1;
-	}
-
-	// can download now
-	if (download(fd, config->buf, config->len) < 0) {
-		close_ttys(fd);
-		return -1;
-	}
-
-	// update options
-	update_options(fd);
-
-	// send end packet
-	goodbye(fd);
 
 	close_ttys(fd);
 
@@ -92,20 +70,21 @@ int isp_main(int argc, char *argv[])
 
 	//NOTE: hard code now, need to be updated...
 	usrConfig.port = "COM4";
-	usrConfig.file = "D:\\单片机\\led2.bin";
-	usrConfig.initbaudrate = 1200;
-	usrConfig.specbaudrate = 9600;
+	usrConfig.file = "D:\\单片机\\led.bin";
 	usrConfig.fill = 0xFF;
-	usrConfig.buf = NULL;
+	usrConfig.download.initbaudrate = 1200;
+	usrConfig.download.specbaudrate = 9600;
+	usrConfig.download.buf = NULL;
+	usrConfig.download.downtype = 0;
 
 	if (read_file(usrConfig.file, buf, MAX_FILE_SIZE, &len) < 0) {
 		ret = -1;
 		goto clean;
 	}
 
-	printf("read file ok: %d bytes.\n", usrConfig.len);
+	printf("read file ok: %d bytes.\n", len);
 
-	if (process_input(buf, len, usrConfig.fill, &usrConfig.buf, &usrConfig.len) < 0) {
+	if (process_input(buf, len, usrConfig.fill, &usrConfig.download.buf, &usrConfig.download.len) < 0) {
 		ret = -1;
 		goto clean;
 	}
@@ -116,8 +95,8 @@ int isp_main(int argc, char *argv[])
 
 clean:
 	free(buf);
-	if (usrConfig.buf && buf != usrConfig.buf) 
-		free(usrConfig.buf);
+	if (usrConfig.download.buf && buf != usrConfig.download.buf) 
+		free(usrConfig.download.buf);
 	return ret;
 }
 

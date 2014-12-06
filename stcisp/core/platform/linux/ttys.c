@@ -27,7 +27,7 @@ extern "C" {
 
 void purge_ttys(pttys fd)
 {
-	
+	tcflush(fd, TCIOFLUSH);
 }
 
 int set_baudrate(pttys fd, int baudrate)
@@ -51,7 +51,7 @@ pttys open_ttys(const char *port)
 void close_ttys(pttys fd)
 {
 	if (fd != NULL_TTYS) {
-		
+		close(fd);
 	}
 }
 
@@ -70,6 +70,13 @@ int read_ttys(pttys fd, unsigned char *buf, int len)
 
 void keep_send(pttys fd, unsigned char *ibuf, int len)
 {
+	fd_set rfds, wfds;
+
+	while (1) {
+		FD_ZERO(&rfds);
+		FD_SET(fd, &rfds);
+		FD_ZERO();
+	}
 	
 }
 

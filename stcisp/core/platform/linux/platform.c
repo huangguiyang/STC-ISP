@@ -32,12 +32,62 @@ void printerr(const char *message)
 
 void sleep_ms(int ms)
 {
-	
+	struct timespec tv;
+
+	tv.tc_sec = ms / 1000;
+	tv.tc_nsec = (ms % 1000) * 1000 * 1000;
+
+	nanosleep(&tv, NULL);
 }
 
 int read_file(const char *path, unsigned char *buf, int buflen, int *len)
 {
+	FILE *fp; 
+	int size;
+	int bread;
+	int p = 0;
 
+	if (buf == NULL || buflen <= 0) {
+		fprintf(stderr, "buf invalid\n");
+		return -1;
+	}
+	fp = fopen(path, "r");
+	if (fp == NULL) {
+		perror("Can't open file");
+		return -1;
+	}
+	fseek(fp, 0, SEEK_END);
+	size = ftell(fp);
+	if (size > MAX_FILE_SIZE) {
+		fprintf(stderr, "file size too long\n");
+		fclose(fp);
+		return -2;
+	}
+	if (size > buflen) {
+		fprintf(stderr, "buf size too short\n");
+		fclose(fp);
+		return -2;
+	}
+	if (len) {
+		*len = size;
+	}
+	fseek(fp, 0, SEEK_SET);
+	while (size > 0) {
+		bread = fread(buf+p, 1, size, fp);
+		if (bread > 0) {
+			size -= bread;
+			p += bread;
+		}
+		else {
+			break;
+		}
+	}
+	if (size > 0) {
+		fprintf(stderr, "read error\n");
+		fclose(fp);
+		return -3;
+	}
+	fclose(fp);
 	return 0;
 }
 

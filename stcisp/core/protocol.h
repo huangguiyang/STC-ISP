@@ -24,12 +24,7 @@ extern "C" {
 #endif
 
 	// protocol
-	int handshake(pttys fd);
-	int verify_baudrate(pttys fd, int initbaudrate, int specbaudrate);
-	int rehandshake(pttys fd);
-	int download(pttys fd, unsigned char *buf, int len);
-	int update_options(pttys fd);
-	void goodbye(pttys fd);
+	int download(pttys fd, DOWNLOAD *cfg);
 
 #ifdef __cplusplus
 }

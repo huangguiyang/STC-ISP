@@ -44,13 +44,18 @@ extern "C" {
 	} MCUINFO;
 
 	typedef struct {
-		const char *port;
-		const char *file;
 		int initbaudrate;
 		int specbaudrate;
 		unsigned char *buf;
 		int len;
+		int downtype;	// 0-offline, 1-online
+	} DOWNLOAD;
+
+	typedef struct {
+		const char *port;
+		const char *file;
 		unsigned char fill;
+		DOWNLOAD	download;
 	} CONFIG;
 
 	// isp
