@@ -2,20 +2,18 @@
 
 Copyright (C) 2014 Mario Huang
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and 
-associated documentation files (the "Software"), to deal in the Software without restriction, 
-including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
-and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, 
-subject to the following conditions:
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-The above copyright notice and this permission notice shall be included in all copies or substantial 
-portions of the Software.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT 
-NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
-IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
-WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
-SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
@@ -242,52 +240,52 @@ static void parse_options(MCUINFO *mcuinfo, unsigned char options)
 static void print_options(MCUINFO *mcuinfo)
 {
 	if (mcuinfo->clockmode) {
-		printf("ÏµÍ³ÆµÂÊÎª12T£¨µ¥±¶ËÙ£©Ä£Ê½\n");
+		printf("ç³»ç»Ÿé¢‘çŽ‡ä¸º12Tï¼ˆå•å€é€Ÿï¼‰æ¨¡å¼\n");
 	}
 	else {
-		printf("ÏµÍ³ÆµÂÊÎª6T£¨Ë«±¶ËÙ£©Ä£Ê½\n");
+		printf("ç³»ç»Ÿé¢‘çŽ‡ä¸º6Tï¼ˆåŒå€é€Ÿï¼‰æ¨¡å¼\n");
 	}
 
 	if (mcuinfo->clockgain) {
-		printf("Õñµ´Æ÷µÄ·Å´óÔöÒæ²»½µµÍ\n");
+		printf("æŒ¯è¡å™¨çš„æ”¾å¤§å¢žç›Šä¸é™ä½Ž\n");
 	}
 	else {
-		printf("Õñµ´Æ÷µÄ·Å´óÔöÒæ½µµÍ\n");
+		printf("æŒ¯è¡å™¨çš„æ”¾å¤§å¢žç›Šé™ä½Ž\n");
 	}
 
 	if (mcuinfo->watchdog) {
-		printf("µ±¿´ÃÅ¹·Æô¶¯ºó£¬ÈÎºÎ¸´Î»¶¼¿ÉÒÔÍ£Ö¹¿´ÃÅ¹·\n");
+		printf("å½“çœ‹é—¨ç‹—å¯åŠ¨åŽï¼Œä»»ä½•å¤ä½éƒ½å¯ä»¥åœæ­¢çœ‹é—¨ç‹—\n");
 	}
 	else {
-		printf("µ±¿´ÃÅ¹·Æô¶¯ºó£¬Ö»ÓÐ¶Ïµç¿ÉÒÔÍ£Ö¹¿´ÃÅ¹·\n");
+		printf("å½“çœ‹é—¨ç‹—å¯åŠ¨åŽï¼Œåªæœ‰æ–­ç”µå¯ä»¥åœæ­¢çœ‹é—¨ç‹—\n");
 	}
 
 	if (mcuinfo->accessram) {
-		printf("MCUÄÚ²¿µÄÀ©Õ¹RAM¿ÉÓÃ\n");
+		printf("MCUå†…éƒ¨çš„æ‰©å±•RAMå¯ç”¨\n");
 	}
 	else {
-		printf("MCUÄÚ²¿µÄÀ©Õ¹RAM²»¿ÉÓÃ\n");
+		printf("MCUå†…éƒ¨çš„æ‰©å±•RAMä¸å¯ç”¨\n");
 	}
 
 	if (mcuinfo->ale) {
-		printf("ALE½ÅµÄ¹¦ÄÜÑ¡ÔñÈÔÈ»ÎªALE¹¦ÄÜ½Å\n");
+		printf("ALEè„šçš„åŠŸèƒ½é€‰æ‹©ä»ç„¶ä¸ºALEåŠŸèƒ½è„š\n");
 	}
 	else {
-		printf("ALE½ÅµÄ¹¦ÄÜÑ¡ÔñÎªP4¹¦ÄÜ½Å\n");
+		printf("ALEè„šçš„åŠŸèƒ½é€‰æ‹©ä¸ºP4åŠŸèƒ½è„š\n");
 	}
 
 	if (mcuinfo->p01) {
-		printf("P1.0ºÍP1.1ÓëÏÂ´ÎÏÂÔØÎÞ¹Ø\n");
+		printf("P1.0å’ŒP1.1ä¸Žä¸‹æ¬¡ä¸‹è½½æ— å…³\n");
 	}
 	else {
-		printf("Îª0/0²Å¿ÉÏÂÔØÓÃ»§³ÌÐò\n");
+		printf("ä¸º0/0æ‰å¯ä¸‹è½½ç”¨æˆ·ç¨‹åº\n");
 	}
 
 	if (mcuinfo->noteraserom) {
-		printf("ÏÂ´ÎÏÂÔØÓÃ»§³ÌÐòÊ±£¬²»²Á³ýÓÃ»§EEPROMÇø\n");
+		printf("ä¸‹æ¬¡ä¸‹è½½ç”¨æˆ·ç¨‹åºæ—¶ï¼Œä¸æ“¦é™¤ç”¨æˆ·EEPROMåŒº\n");
 	}
 	else {
-		printf("ÏÂ´ÎÏÂÔØÓÃ»§³ÌÐòÊ±£¬²Á³ýÓÃ»§EEPROMÇø\n");
+		printf("ä¸‹æ¬¡ä¸‹è½½ç”¨æˆ·ç¨‹åºæ—¶ï¼Œæ“¦é™¤ç”¨æˆ·EEPROMåŒº\n");
 	}
 }
 
@@ -315,12 +313,12 @@ static void parse_mcu_info(unsigned char *buf, int len)
 	parse_options(mcuinfo, buf[22]);
 
 	printf("\n");
-	printf("ÐÍºÅ: %s\n", mcuinfo->model);
-	printf("¹Ì¼þ°æ±¾: %d.%d%C\n", 
+	printf("åž‹å·: %s\n", mcuinfo->model);
+	printf("å›ºä»¶ç‰ˆæœ¬: %d.%d%C\n", 
 		(mcuinfo->version >> 12) & 0x0F,
 		(mcuinfo->version >> 8) & 0x0F,
 		mcuinfo->version & 0x0FF);
-	printf("Ê±ÖÓÆµÂÊ: %.3f MHz\n", mcuinfo->frequency / 1000000);
+	printf("æ—¶é’Ÿé¢‘çŽ‡: %.3f MHz\n", mcuinfo->frequency / 1000000);
 	print_options(mcuinfo);
 	printf("\n");
 }
@@ -628,6 +626,7 @@ static int download_offline(pttys fd, DOWNLOAD *config)
 
 static int download_online(pttys fd, DOWNLOAD *config)
 {
+	keep_interupt(fd);
 
 	return -1;
 }

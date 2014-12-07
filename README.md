@@ -33,7 +33,7 @@ I hack on this just for fun.
 ####License
 ***
 
-MIT License. See LICENSE.
+GNU Public License. See LICENSE.
 
 
 ####For Chinese Users
