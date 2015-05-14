@@ -69,7 +69,7 @@ int isp_main(int argc, char *argv[])
 
 	//NOTE: hard code now, need to be updated...
 	usrConfig.port = "COM4";
-	usrConfig.file = "D:\\单片机\\led.bin";
+	usrConfig.file = "led.bin";
 	usrConfig.fill = 0xFF;
 	usrConfig.download.initbaudrate = 1200;
 	usrConfig.download.specbaudrate = 9600;
