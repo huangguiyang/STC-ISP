@@ -3,7 +3,9 @@ STC-ISP
 
 A ROM burner for STC90C516RD+ MCU.
 
-This MCU is Intel 80C51 compatible. But the ISP (In System Programming) download protocol is non-public. 
+This MCU is Intel 80C51 compatible. 
+
+The official ISP (In System Programming) download protocol is non-public.
 
 I hack on this just for fun.
 
@@ -16,7 +18,7 @@ I hack on this just for fun.
 
 3. Only tested for STC90C516RD+.
 
-4. Only support .bin format now.
+4. Only supports binary format.
 
 
 ####TODO
@@ -24,9 +26,9 @@ I hack on this just for fun.
 
 * Finish the command line user interface.
 
-* Support .hex format.
+* Hex format support.
 
-* Support Linux.
+* Linux support.
 
 * Power-on download support.
 
