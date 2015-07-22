@@ -35,7 +35,7 @@ I hack on this just for fun.
 ####License
 ***
 
-GNU Public License. See LICENSE.
+This is free software published under GPLv2. See LICENSE.
 
 
 ####For Chinese Users
